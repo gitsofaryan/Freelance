@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Grid</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        .date-section {
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .video-tile {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+
+        .video-tile img {
+            max-width: 100%;
+            border-radius: 8px;
+        }
+
+        .video-tile h3 {
+            margin: 10px 0 5px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        .video-tile p {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .video-tile a {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .video-tile a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Watch Videos</h1>
+
+    <div id="video-sections"></div>
+
+    <script>
+        const videos = [
+            {
+                date: "October 12, 2024",
+                videoList: [
+                    {
+                        thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/0.jpg",
+                        name: "YouTube Video 1",
+                        url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                        category: "Music",
+                        comment: "Great music video!",
+                        recommendedBy: "John Doe"
+                    },
+                    {
+                        thumbnail: "https://img.youtube.com/vi/3JZ_D3ELwOQ/0.jpg",
+                        name: "YouTube Video 2",
+                        url: "https://www.youtube.com/watch?v=3JZ_D3ELwOQ",
+                        category: "Comedy",
+                        comment: "Funny stand-up comedy!",
+                        recommendedBy: "Jane Doe"
+                    }
+                ]
+            },
+            {
+                date: "October 11, 2024",
+                videoList: [
+                    {
+                        thumbnail: "https://img.youtube.com/vi/tAGnKpE4NCI/0.jpg",
+                        name: "YouTube Video 3",
+                        url: "https://www.youtube.com/watch?v=tAGnKpE4NCI",
+                        category: "Documentary",
+                        comment: "Educational video on nature.",
+                        recommendedBy: "Alice"
+                    },
+                    {
+                        thumbnail: "https://img.youtube.com/vi/C0DPdy98e4c/0.jpg",
+                        name: "YouTube Video 4",
+                        url: "https://www.youtube.com/watch?v=C0DPdy98e4c",
+                        category: "Drama",
+                        comment: "Heartwarming movie!",
+                        recommendedBy: "Bob"
+                    }
+                ]
+            }
+        ];
+
+        const videoSections = document.getElementById("video-sections");
+
+        videos.forEach(section => {
+            const dateSection = document.createElement("div");
+            dateSection.className = "date-section";
+
+            const heading = document.createElement("h2");
+            heading.textContent = section.date;
+            dateSection.appendChild(heading);
+
+            const grid = document.createElement("div");
+            grid.className = "video-grid";
+
+            section.videoList.forEach(video => {
+                const tile = document.createElement("div");
+                tile.className = "video-tile";
+
+                const thumbnail = document.createElement("img");
+                thumbnail.src = video.thumbnail;
+                tile.appendChild(thumbnail);
+
+                const title = document.createElement("h3");
+                title.textContent = video.name;
+                tile.appendChild(title);
+
+                const category = document.createElement("p");
+                category.textContent = `Category: ${video.category}`;
+                tile.appendChild(category);
+
+                const comment = document.createElement("p");
+                comment.textContent = `Comment: ${video.comment}`;
+                tile.appendChild(comment);
+
+                const recommendedBy = document.createElement("p");
+                recommendedBy.textContent = `Recommended by: ${video.recommendedBy}`;
+                tile.appendChild(recommendedBy);
+
+                const link = document.createElement("a");
+                link.href = video.url;
+                link.target = "_blank";
+                link.textContent = "Watch now";
+                tile.appendChild(link);
+
+                grid.appendChild(tile);
+            });
+
+            dateSection.appendChild(grid);
+            videoSections.appendChild(dateSection);
+        });
+    </script>
+</body>
+</html>

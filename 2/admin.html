@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        form {
+            max-width: 400px;
+            margin: auto;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Admin Panel</h1>
+    <form id="video-form">
+        <label for="date">Date</label>
+        <input type="date" id="date" required>
+
+        <label for="thumbnail">Thumbnail URL</label>
+        <input type="url" id="thumbnail" placeholder="https://image-url.jpg">
+
+        <label for="name">Video Name</label>
+        <input type="text" id="name" required>
+
+        <label for="url">Video URL</label>
+        <input type="url" id="url" placeholder="https://youtube.com/..." required>
+
+        <label for="category">Category</label>
+        <input type="text" id="category">
+
+        <label for="comment">Comment</label>
+        <textarea id="comment"></textarea>
+
+        <label for="recommendedBy">Recommended By</label>
+        <input type="text" id="recommendedBy">
+
+        <button type="submit">Add Video</button>
+    </form>
+
+    <script>
+        document.getElementById('video-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const videoData = {
+                date: document.getElementById('date').value,
+                thumbnail: document.getElementById('thumbnail').value,
+                name: document.getElementById('name').value,
+                url: document.getElementById('url').value,
+                category: document.getElementById('category').value,
+                comment: document.getElementById('comment').value,
+                recommendedBy: document.getElementById('recommendedBy').value
+            };
+
+            // Here you would save the videoData to your database (e.g., Firebase)
+            console.log(videoData);
+           
