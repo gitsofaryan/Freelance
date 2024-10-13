@@ -1,0 +1,21 @@
+{
+    "name": "Anonostr",
+    "short_name": "Anonostr",
+    "description": "Anonymous Nostr Client",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#827cd1",
+    "icons": [
+      {
+        "src": "./images/anonostr-icon.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "./images/anonostr-icon.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ]
+  }

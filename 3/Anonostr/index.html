@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonostr | Anonymous Nostr Client</title>
+    <meta name="description"
+        content="Send anonymous notes to the Nostr network with Anonostr. Each note submission generates a new key pair that's securely burned after single use furthering anonymity.">
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Anonostr | Anonymous Nostr Client">
+    <meta property="og:description"
+        content="Send anonymous notes to the Nostr network with Anonostr. Each note submission generates a new key pair that's securely burned after single use furthering anonymity.">
+    <meta property="og:image" content="https://anonostr.com/images/anonostr-og.png">
+    <meta property="og:url" content="https://anonostr.com">
+    <meta property="og:type" content="website">
+    <link rel="icon" href="./images/anonostr-icon.png" type="image/png">
+    <link rel="canonical" href="https://anonostr.com/">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#007bff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Anonostr">
+    <link rel="apple-touch-icon" href="./images/anonostr-icon.png">
+    <!-- Anonostr Styling -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="sidebar">
+        <!-- Hero Section -->
+        <div class="hero-section">
+            <img src="./images/anonostr-hero.png" alt="Anonostr Hero Banner" class="hero">
+            <h1>Anonostr</h1>
+        </div>
+        <!-- Desc Section -->
+        <div class="desc-section">
+            <p>Send anonymous notes on Nostr. Each note submission generates a new key pair that's securely burned.</p>
+        </div>
+
+        <form id="eventForm">
+            <label for="note">Enter your note:</label>
+            <textarea id="note" rows="6" placeholder="@npub1... or @note1... or #tag your note here"></textarea>
+
+            <!-- Checkbox Group -->
+            <div style="font-size: 12px; color: grey; margin-top: 10px; margin-bottom: 10px;">
+                <strong>Optional:</strong>
+            </div>
+            <div class="checkbox-group">
+                <div class="checkbox-container">
+                    <input type="checkbox" id="replyChain">
+                    <label for="replyChain">Reply chain</label>
+                    <div class="tooltip">ℹ️
+                        <span class="tooltiptext">Enable this to link your notes as replies in a threaded conversation,
+                            maintaining the context within a linked chain of notes.</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="relayHop">
+                    <label for="relayHop">Relay hop</label>
+                    <div class="tooltip">ℹ️
+                        <span class="tooltiptext">Relay hopping adds obfuscation by spreading notes across different
+                            relays randomly, making it harder for any single relay to correlate and track the
+                            notes.</span>
+                    </div>
+                </div>
+
+                <div class="checkbox-container">
+                    <input type="checkbox" id="torRelays">
+                    <label for="torRelays">Tor relays</label>
+                    <div class="tooltip">ℹ️
+                        <span class="tooltiptext">Use only relays behind onion services for added anonymity.</span>
+                    </div>
+                </div>
+            </div>
+
+            <button class="send-button" type="submit">
+                Send Note
+                <div class="spinner"></div>
+            </button>
+
+            <!-- Relay information display -->
+            <div id="relayInfo" style="font-size: 12px; color: grey; margin-top: 10px;">
+                <strong>Relays being used:</strong>
+                <ul id="relayList"></ul>
+            </div>
+        </form>
+        <div id="statusNote" class="note"></div>
+
+   
+    </div>
+
+    <div class="main-content">
+        <div class="global-header">
+            <h2>
+                <span id="followingToggle" class="toggle-active">Following</span> ·
+                <span id="globalToggle" class="toggle-inactive">Global</span>
+            </h2>
+            <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+        </div>
+
+        <!-- Following Timeline Container -->
+        <div class="timeline-feed" id="followingFeed" style="display: block;">
+            <!-- Following timeline items are dynamically injected here -->
+        </div>
+
+        <!-- Global Timeline Container -->
+        <div class="timeline-feed" id="globalFeed" style="display: none;">
+            <!-- Global timeline items are dynamically injected here -->
+        </div>
+    </div>
+
+    <div class="replies-column">
+        <h2>Replies</h2>
+        <div class="replies-feed" id="repliesFeed">
+            <!-- Replies are dynamically injected here -->
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="search-modal" id="searchModal">
+        <div class="search-modal-content">
+            <span class="close-search-modal" id="closeSearchModal">&times;</span>
+            <div class="search-results" id="searchResults">
+                <!-- Search results are dynamically injected here -->
+            </div>
+
+            <!-- Profile View in Search Modal -->
+            <div class="profile-view" id="profileView" style="display: none;">
+                <button class="back-button" id="backButton" style="display: none;">← Back</button>
+                <!-- Follow Button -->
+                <button class="follow-button" id="searchModalFollowButton">Follow</button>
+                <img src="" alt="Banner Image" class="profile-banner" id="modalProfileBanner">
+                <img src="" alt="Avatar" class="profile-avatar" id="modalProfileAvatar">
+                <div class="profile-info" id="modalProfileInfo">
+                    <h2 id="modalProfileName"></h2>
+                    <p id="modalProfileNip05"></p>
+                    <p id="modalProfileAbout"></p>
+                    <p id="modalProfileLnurl"></p>
+                </div>
+                <div class="profile-feed" id="modalProfileFeed">
+                    <!-- User's notes are dynamically injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div class="profile-modal" id="profileModal">
+        <div class="profile-modal-content">
+            <span class="close-modal" id="closeModal">&times;</span>
+            <!-- Follow Button -->
+            <button class="follow-button" id="modalFollowButton">Follow</button>
+            <img src="" alt="Banner Image" class="profile-banner" id="profileBanner">
+            <img src="" alt="Avatar" class="profile-avatar" id="profileAvatar">
+            <div class="profile-info" id="profileInfo">
+                <h2 id="profileName"></h2>
+                <p id="profileNip05"></p>
+                <p id="profileAbout"></p>
+                <p id="profileLnurl"></p>
+            </div>
+            <div class="profile-feed" id="profileFeed">
+                <!-- User's notes are dynamically injected here -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Include nostr-tools Library -->
+    <script src="https://unpkg.com/nostr-tools/lib/nostr.bundle.js" defer></script>
+
+    <!-- GitHub Button Script -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+    <!-- Nostr Zap Button Script -->
+    <script src="https://cdn.jsdelivr.net/npm/nostr-zap@1.1.0" defer></script>
+
+    <!-- Anonostr Script -->
+    <script src="app.js" defer></script>
+</body>
+
+</html>
